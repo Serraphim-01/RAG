@@ -300,6 +300,7 @@ button:disabled {
   text-align: center;
   min-width: 120px;
   border: 2px solid #ffffff;
+  flex: 1;
 }
 
 .stat-card h3 {
@@ -314,10 +315,45 @@ button:disabled {
   color: #0a0a0a;
 }
 
+@media (max-width: 768px) {
+  .stat-card {
+    padding: 8px 5px;
+    min-width: auto;
+  }
+  
+  .stat-card h3 {
+    font-size: 11px;
+    margin-bottom: 3px;
+  }
+  
+  .stat-card p {
+    font-size: 16px;
+  }
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+}
+
+.groups-table th,
+.groups-table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.groups-table th {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: #0a0a0a;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.groups-table td {
+  min-height: 40px;
 }
 
 th,
@@ -325,12 +361,6 @@ td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #ddd;
-}
-
-th {
-  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-  color: #0a0a0a;
-  font-weight: bold;
 }
 
 tr:hover {
@@ -402,10 +432,17 @@ tr:hover {
   }
 
   .stats {
-    flex-direction: column;
+    flex-direction: row;
+    gap: 5px;
   }
 
-  .stat-card {
-    width: 100%;
+  .groups-table th,
+  .groups-table td {
+    padding: 8px 4px;
+    font-size: 12px;
+  }
+  
+  .groups-table th {
+    font-size: 14px;
   }
 }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import './App.css';
 import { FaCompass, FaSun, FaRegSun, FaMoon } from 'react-icons/fa';
 
@@ -13,6 +14,9 @@ function App() {
   const [result, setResult] = useState('');
   const [showCard, setShowCard] = useState(false);
   const [assignedGroup, setAssignedGroup] = useState('');
+  
+  const location = useLocation();
+  const isAdmin = location.pathname === '/admin';
 
   useEffect(() => {
     fetchAssignments();
@@ -149,6 +153,24 @@ function App() {
     return `group-${groupName.toLowerCase()}`;
   };
 
+  // Organize assignments by group
+  const getAssignmentsByGroup = () => {
+    const groups = {
+      'North': [],
+      'East': [],
+      'South': [],
+      'West': []
+    };
+    
+    assignments.forEach(assignment => {
+      if (groups[assignment.group_name]) {
+        groups[assignment.group_name].push(assignment.name);
+      }
+    });
+    
+    return groups;
+  };
+
   return (
     <div className="container">
       <h1>Group Assignment Roulette</h1>
@@ -236,31 +258,43 @@ function App() {
 
       <div className="table-section">
         <h2>Group Assignments</h2>
-        <table>
+        <table className="groups-table">
           <thead>
             <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Group</th>
-              <th>Timestamp</th>
+              <th>North</th>
+              <th>East</th>
+              <th>South</th>
+              <th>West</th>
             </tr>
           </thead>
           <tbody>
-            {assignments.map((entry, index) => (
-              <tr key={entry.id} className={getGroupClass(entry.group_name)}>
-                <td>{index + 1}</td>
-                <td>{entry.name}</td>
-                <td>{entry.group_name}</td>
-                <td>{new Date(entry.created_at).toLocaleString()}</td>
-              </tr>
-            ))}
+            {(() => {
+              const groups = getAssignmentsByGroup();
+              const maxCount = Math.max(
+                groups['North'].length,
+                groups['East'].length,
+                groups['South'].length,
+                groups['West'].length
+              );
+              
+              return Array.from({ length: Math.max(maxCount, 1) }, (_, index) => (
+                <tr key={index}>
+                  <td className="group-north">{groups['North'][index] || ''}</td>
+                  <td className="group-east">{groups['East'][index] || ''}</td>
+                  <td className="group-south">{groups['South'][index] || ''}</td>
+                  <td className="group-west">{groups['West'][index] || ''}</td>
+                </tr>
+              ));
+            })()}
           </tbody>
         </table>
         
-        <div className="csv-section">
-          <button onClick={downloadCSV}>Download CSV</button>
-          <button onClick={handleClearAll}>Clear All Data</button>
-        </div>
+        {isAdmin && (
+          <div className="csv-section">
+            <button onClick={downloadCSV}>Download CSV</button>
+            <button onClick={handleClearAll}>Clear All Data</button>
+          </div>
+        )}
       </div>
     </div>
   );
