@@ -28,7 +28,7 @@ services:
     environment:
       PORT: 8060
       DB_HOST: db
-      DB_PORT: 5436
+      DB_PORT: 5432
       DB_NAME: group_assignment
       DB_USER: postgres
       DB_PASSWORD: postgres123
