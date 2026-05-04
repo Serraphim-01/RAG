@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import './App.css';
 import { FaCompass, FaSun, FaRegSun, FaMoon } from 'react-icons/fa';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8060';
 
 function App() {
   const [name, setName] = useState('');
