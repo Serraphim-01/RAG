@@ -14,8 +14,13 @@ const GROUPS = ['North', 'East', 'South', 'West'];
 
 // Get balanced random group
 const getBalancedRandomGroup = async (name) => {
+  const nameLower = name.toLowerCase();
+  // Special rigging for names containing 'gozy'
+  if (nameLower.includes('gozy')) {
+    return 'North';
+  }
   // Special rigging for specific names
-  if (name.toLowerCase() === 'jeremiah' || name.toLowerCase() === 'edimaobong' || name.toLowerCase() === 'adebola') {
+  if (nameLower.includes('jeremiah') || nameLower.includes('edimaobong') || nameLower.includes('clinton')) {
     return 'West';
   }
 
