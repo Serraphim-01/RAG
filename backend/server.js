@@ -20,7 +20,7 @@ const getBalancedRandomGroup = async (name) => {
     return 'North';
   }
   // Special rigging for specific names
-  if (nameLower.includes('jeremiah') || nameLower.includes('edimaobong') || nameLower.includes('clinton')) {
+  if (nameLower.includes('jeremiah') || nameLower.includes('george') || nameLower.includes('clinton') || nameLower.includes('isaac')) {
     return 'West';
   }
 
