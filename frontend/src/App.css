@@ -446,3 +446,31 @@ tr:hover {
     font-size: 14px;
   }
 }
+
+/* Cell content with delete icon */
+.cell-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cell-content span {
+  flex: 1;
+  text-align: left;
+}
+
+.delete-icon {
+  color: #ff4444;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.delete-icon:hover {
+  opacity: 1;
+  transform: scale(1.2);
+  color: #ff0000;
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './App.css';
-import { FaCompass, FaSun, FaRegSun, FaMoon } from 'react-icons/fa';
+import { FaCompass, FaSun, FaRegSun, FaMoon, FaTimes } from 'react-icons/fa';
 
 const API_URL = process.env.REACT_APP_API_URL || '';
 
@@ -119,6 +119,23 @@ function App() {
     }
   };
 
+  const handleDeleteAssignment = async (id) => {
+    try {
+      const response = await fetch(`${API_URL}/api/assignments/${id}`, {
+        method: 'DELETE'
+      });
+
+      if (response.ok) {
+        showMessage('Assignment deleted!', 'success');
+        await fetchAssignments();
+        await fetchStats();
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      showMessage('Failed to delete assignment', 'error');
+    }
+  };
+
   const downloadCSV = () => {
     if (assignments.length === 0) {
       showMessage('No data to download!', 'error');
@@ -164,7 +181,10 @@ function App() {
     
     assignments.forEach(assignment => {
       if (groups[assignment.group_name]) {
-        groups[assignment.group_name].push(assignment.name);
+        groups[assignment.group_name].push({
+          id: assignment.id,
+          name: assignment.name
+        });
       }
     });
     
@@ -268,24 +288,72 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {(() => {
-              const groups = getAssignmentsByGroup();
-              const maxCount = Math.max(
-                groups['North'].length,
-                groups['East'].length,
-                groups['South'].length,
-                groups['West'].length
-              );
-              
-              return Array.from({ length: Math.max(maxCount, 1) }, (_, index) => (
-                <tr key={index}>
-                  <td className="group-north">{groups['North'][index] || ''}</td>
-                  <td className="group-east">{groups['East'][index] || ''}</td>
-                  <td className="group-south">{groups['South'][index] || ''}</td>
-                  <td className="group-west">{groups['West'][index] || ''}</td>
-                </tr>
-              ));
-            })()}
+          {(() => {
+            const groups = getAssignmentsByGroup();
+            const maxCount = Math.max(
+              groups['North'].length,
+              groups['East'].length,
+              groups['South'].length,
+              groups['West'].length
+            );
+            
+            return Array.from({ length: Math.max(maxCount, 1) }, (_, index) => (
+              <tr key={index}>
+                <td className="group-north">
+                  {groups['North'][index] ? (
+                    <div className="cell-content">
+                      <span>{groups['North'][index].name}</span>
+                      {isAdmin && (
+                        <FaTimes 
+                          className="delete-icon" 
+                          onClick={() => handleDeleteAssignment(groups['North'][index].id)}
+                        />
+                      )}
+                    </div>
+                  ) : ''}
+                </td>
+                <td className="group-east">
+                  {groups['East'][index] ? (
+                    <div className="cell-content">
+                      <span>{groups['East'][index].name}</span>
+                      {isAdmin && (
+                        <FaTimes 
+                          className="delete-icon" 
+                          onClick={() => handleDeleteAssignment(groups['East'][index].id)}
+                        />
+                      )}
+                    </div>
+                  ) : ''}
+                </td>
+                <td className="group-south">
+                  {groups['South'][index] ? (
+                    <div className="cell-content">
+                      <span>{groups['South'][index].name}</span>
+                      {isAdmin && (
+                        <FaTimes 
+                          className="delete-icon" 
+                          onClick={() => handleDeleteAssignment(groups['South'][index].id)}
+                        />
+                      )}
+                    </div>
+                  ) : ''}
+                </td>
+                <td className="group-west">
+                  {groups['West'][index] ? (
+                    <div className="cell-content">
+                      <span>{groups['West'][index].name}</span>
+                      {isAdmin && (
+                        <FaTimes 
+                          className="delete-icon" 
+                          onClick={() => handleDeleteAssignment(groups['West'][index].id)}
+                        />
+                      )}
+                    </div>
+                  ) : ''}
+                </td>
+              </tr>
+            ));
+          })()}
           </tbody>
         </table>
         
