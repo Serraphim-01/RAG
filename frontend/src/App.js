@@ -21,6 +21,15 @@ function App() {
   useEffect(() => {
     fetchAssignments();
     fetchStats();
+    
+    // Set up polling for real-time updates (every 3 seconds)
+    const pollInterval = setInterval(() => {
+      fetchAssignments();
+      fetchStats();
+    }, 3000);
+    
+    // Clean up interval on component unmount
+    return () => clearInterval(pollInterval);
   }, []);
 
   const fetchAssignments = async () => {
