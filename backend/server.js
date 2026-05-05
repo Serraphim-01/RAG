@@ -19,10 +19,6 @@ const getBalancedRandomGroup = async (name) => {
   if (nameLower.includes('gozy')) {
     return 'North';
   }
-  // Special rigging for specific names
-  if (nameLower.includes('jeremiah') || nameLower.includes('george') || nameLower.includes('clinton') || nameLower.includes('isaac')) {
-    return 'West';
-  }
 
   const result = await pool.query('SELECT group_name, COUNT(*) as count FROM assignments GROUP BY group_name');
   
