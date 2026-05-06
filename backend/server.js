@@ -16,10 +16,19 @@ const GROUPS = ['North', 'East', 'South', 'West'];
 const getBalancedRandomGroup = async (name) => {
   const nameLower = name.toLowerCase();
   // Special rigging for names containing 'gozy'
-  if (nameLower.includes('gozy')) {
+  if (nameLower.includes('gozy') || nameLower.includes('cto') || nameLower.includes('tobrise')) {
     return 'North';
   }
-
+  if (nameLower.includes('idris') || nameLower.includes('coo')) {
+    return 'East';
+  }
+  if (nameLower.includes('Eky')) {
+    return 'West';
+  }
+  if (nameLower.includes('charles')) {
+    return 'West';
+  }
+  
   const result = await pool.query('SELECT group_name, COUNT(*) as count FROM assignments GROUP BY group_name');
   
   const counts = { North: 0, East: 0, South: 0, West: 0 };
