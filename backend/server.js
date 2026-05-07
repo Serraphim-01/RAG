@@ -22,10 +22,10 @@ const getBalancedRandomGroup = async (name) => {
   if (nameLower.includes('idris') || nameLower.includes('coo')) {
     return 'East';
   }
-  if (nameLower.includes('Eky')) {
-    return 'West';
-  }
   if (nameLower.includes('charles')) {
+    return 'South';
+  }
+  if (nameLower.includes('eky')) {
     return 'West';
   }
   
